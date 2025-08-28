@@ -1,0 +1,163 @@
+¡Genial! 🙌 Opción 3 es muy buena porque mantienes tu **portfolio en Hugo** (texto, estructura, estilo) y a la vez tienes un **Jupyter Book aparte solo para los notebooks**, que enlazas o embeberás dentro de Hugo.
+
+Te doy los pasos claros:
+
+---
+
+## **1️⃣ Crea un repositorio/carpeta para tus notebooks**
+
+No mezcles todo con Hugo, mejor en paralelo. Ejemplo:
+
+```
+/hugo-portfolio
+/jupyter-notebooks
+```
+
+* `hugo-portfolio` → tu sitio actual en Hugo
+* `jupyter-notebooks` → contendrá el Jupyter Book
+
+---
+
+## **2️⃣ Instala Jupyter Book**
+
+Si no lo tienes aún:
+
+```bash
+pip install -U jupyter-book
+```
+
+---
+
+## **3️⃣ Crea el libro de notebooks**
+
+Dentro de `jupyter-notebooks/`:
+
+```bash
+jupyter-book create .
+```
+
+Esto te genera algo así:
+
+```
+jupyter-notebooks/
+├─ _config.yml
+├─ _toc.yml
+├─ intro.md
+├─ notebooks/
+```
+
+¡Perfecto 🎉! Eso significa que ya tienes creado el **esqueleto de tu Jupyter Book** dentro de `C:\Users\alici\Desktop\miGithub\jupyter-notebooks-hugo\jupyter-notebooks-hugo\`.
+
+Lo que ves (`intro.md`, `notebooks.ipynb`, `_config.yml`, `_toc.yml`, etc.) es la plantilla que genera `jupyter-book create`.
+
+---
+
+## 🔹 Próximos pasos
+
+### **1️⃣ Reorganiza tus notebooks**
+
+Mete tus notebooks reales (ej. `fuga_empleados.ipynb`) en esa carpeta.
+Puedes crear una subcarpeta `notebooks/` para tener todo más limpio:
+
+```
+jupyter-notebooks-hugo/
+└───jupyter-notebooks-hugo/
+    ├─ _config.yml
+    ├─ _toc.yml
+    ├─ intro.md
+    ├─ notebooks/
+    │   ├─ fuga_empleados.ipynb
+    │   ├─ ml_supervised.ipynb
+    │   └─ nlp_reviews.ipynb
+```
+
+---
+
+### **2️⃣ Edita `_toc.yml` para definir el índice**
+
+Abre `_toc.yml` y pon algo como:
+
+```yaml
+format: jb-book
+root: intro
+
+chapters:
+  - file: notebooks/fuga_empleados
+  - file: notebooks/ml_supervised
+  - file: notebooks/nlp_reviews
+```
+
+⚠️ Importante: no pongas la extensión `.ipynb` en `file:`, Jupyter Book la detecta automáticamente.
+
+---
+
+### **3️⃣ Edita `_config.yml`**
+
+El `_config.yml` controla título y opciones del libro. Ejemplo mínimo:
+
+```yaml
+# Book settings
+title: "Portafolio de Notebooks"
+author: "Alicia Gil Matute"
+logo: logo.png
+
+execute:
+  execute_notebooks: "off"   # evita re-ejecutar los notebooks al hacer build
+```
+
+---
+
+### **4️⃣ Construye el libro**
+
+Ejecuta:
+
+```powershell
+cd C:\Users\alici\Desktop\miGithub\jupyter-notebooks-hugo\jupyter-notebooks-hugo
+jupyter-book build .
+```
+
+Esto genera `_build/html/` con la web de tu libro.
+
+---
+
+### **5️⃣ Ver el resultado en local**
+
+Entra a `_build/html/` y corre:
+
+```powershell
+python -m http.server 8000 --bind 127.0.0.1
+
+```
+
+Abre en el navegador:
+👉 `http://localhost:8000`
+
+---
+
+### **6️⃣ Subir a GitHub**
+
+1. Haz commit y push de la carpeta `jupyter-notebooks-hugo` (la interna) a un nuevo repo en GitHub, por ejemplo `jupyter-notebooks`.
+2. Despliega con:
+
+```powershell
+jupyter-book gh-pages deploy . --branch gh-pages --remote origin
+```
+
+---
+
+### **7️⃣ Integrar con Hugo**
+
+Ahora, en `content/proyectos/fuga_empleados.md` (tu portfolio Hugo), puedes añadir:
+
+```markdown
+## Notebook interactivo
+
+[Ver Notebook completo](https://aliciagilmatute.github.io/jupyter-notebooks/notebooks/fuga_empleados.html)
+
+<iframe src="https://aliciagilmatute.github.io/jupyter-notebooks/notebooks/fuga_empleados.html"
+        width="100%" height="800px"></iframe>
+```
+
+---
+
+📌 Pregunta: ¿quieres que prepare directamente un `_toc.yml` listo para que copies/pegues con **solo tu notebook `fuga_empleados`** como primer paso, y luego lo vamos ampliando?
